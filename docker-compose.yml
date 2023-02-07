@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+  app:
+    build: .
+    command: flask run --host=0.0.0.0
+    volumes:
+      - $PWD:/srv/app
+    stdin_open: true
+    tty: true
+    ports:
+      - 8080:8080
+    container_name: flask_template
+    environment:
+      FLASK_APP: flask_template
+      FLASK_ENV: development
+      FLASK_KEY: dev
+      FLASK_RUN_PORT: 8080
+     
+      
+
+
