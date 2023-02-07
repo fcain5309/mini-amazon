@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Datapage
+        </title>
+    </head>
+    <body>
+        <h1>
+            Datastuff:!
+        </h1>
+
+        {% for person in people %}
+            <p>name= {{person.name}} ,password = {{person.password}}</p>
+
+        {% endfor %}
+
+    </body>
+</html>

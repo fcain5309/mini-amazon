@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            ODDS
+        </title>
+    </head>
+    <body>
+        <h1>
+            ONLY ODDS!
+        </h1>
+
+        {% for bing in range(neonum) %}
+            {% if bing % 2 != 0 %}
+            <p>{{bing}}</p>
+            {% endif %}
+        {% endfor %}
+
+    </body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if purchase %}
+    <h2>Your Customers' Purchases:</h2>
+    <br><br>
+    <table class='table table-hover table-bordered container' , id="seller-order-table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Buyer Name</th>
+            <th scope="col">Buyer address</th>
+            <th scope="col">Time Order Placed</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Cost ($)</th>
+            <th scope="col">Fulfillment Status</th>
+            <th scope="col">Edit Fulfillment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchase %}
+            <tr>
+                <td>{{ purchase.order_id }}</td>
+                <td>{{ purchase.firstname }} {{ purchase.lastname }}</td>
+                <td>{{ purchase.address }}</td>
+                <td>{{ purchase.time_stamp }}</td>
+                <td>{{ purchase.quantity }}</td>
+                <td>{{ purchase.total_price }}</td>
+                {% if purchase.fulfillment_status == 'fulfilled'%}
+                    <td>Fulfilled</td>
+                {% else %}
+                    <td>In Progress</td>
+                {% endif %}
+                <td><div><p><a href="{{url_for('inventory.editFulfillment', oid=purchase.order_id, inventory_id=purchase.inventory_id)}}" type="button" class="btn btn-dark">Edit</a></p></div></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+<h3 style = "padding-top: 20px"> You have no orders</h3>
+{% endif %}
+{% endblock %}

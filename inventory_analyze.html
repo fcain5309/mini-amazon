@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Seller's Analytics:</h2>
+<br>
+<h3>Top 10 Products:</h3>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Have Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in top_products%}
+      <tr>
+        <td> {{item.product_id}} </td>
+          <td>
+            <a href="{{ url_for('products.product_details', product_id = item.product_id) }}">{{item.product_name}}</a>
+          </td>
+        <td> {{item.count}} </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+    <br>
+<h3>Bottom 10 Products:</h3>
+ <table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Have Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in worst_products%}
+      <tr>
+        <td> {{item.product_id}} </td>
+          <td><a href="{{ url_for('products.product_details', product_id = item.product_id) }}">{{ item.product_name }}</a></td>
+        <td> {{item.count}} </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+        <br>
+<h3>10 Lowest Remaining Quantity Products:</h3><br>
+ <table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Quantity Remaining</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in lowest_products%}
+      <tr>
+        <td> {{item.product_id}} </td>
+          <td><a href="{{ url_for('products.product_details', product_id = item.product_id) }}">{{ item.product_name }}</a></td>
+        <td> {{item.count}} </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 style="text-align: center;">Product "{{product.name}}"</h1>
+{% if product == None %}
+<h2>Product does not exist.</h2>
+{% else %}
+<h2>{{product.name}}:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Category</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th scope="row">{{product.id}}</th>
+    <td>
+      <img src="{{product.image}}" width="200" height="200"/>
+    </td>
+    <td>
+      {{product.name}}
+    </td>
+    <td>{{product.category}}</td>
+    <td>{{product.description}}</td>
+    <td>{{product.price}}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% if reviews %}
+<h2>Product Reviews:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Reviewer</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for review in reviews%}
+    <tr>
+      <th scope="row">{{review.uid}}</th>
+      <td>{{review.review_content}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<h2>Product has no reviews.</h2>
+{% endif %}
+
+{% if sellers %}
+<h2>Product Sellers:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Seller</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for seller in sellers%}
+    <tr>
+      <th scope="row">{{seller.quantity + " " + seller.is_active}}</th>
+      {% if seller.pid == 0 %}
+      <td>
+        <p>Out of stock.</p>
+      </td>
+      {% else %}
+      <td>{{seller.pid}}</td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if current_user.is_authenticated %}
+<h2>Purchase Options:</h2>
+<form action="#" method="post" novalidate>
+  <div style="text-align: left; padding-right: 25px; display: inline-block;">
+    <p>Seller</p>
+    <p style="display: inline-block; padding-right: 25px;"><select name="sellerId" class="selectpicker form-control" style="width:200px; display: inline-block; padding-right: 25px;">
+      {% for seller in sellers %}
+        <option value="{{seller.uid}}">{{seller.quantity + " " + seller.is_active}}</option>
+      {% endfor %}
+      </select>
+    </p>
+  </div>
+  <div style="display: inline-block;">
+    <p>Quantity</p>
+    <p style="display: inline-block;">
+      <input type="number" id="quant" name="quant" min="1" required> 
+    </p>
+  </div>
+    {% if failed == 1 %}
+    <p style="color: red;"> You cannot add more to your cart than the seller has in stock.</p>
+    {% endif %}
+    {% if failed == 3 %}
+    <p style="color: red;"> Quantity is required.</p>
+    {% endif %}
+    {% if failed == 2 %}
+    <p> Product has been added to cart.</p>
+    {% endif %}
+    <p><input type="submit" name = "search" /></p>
+</div>
+</form>
+{% else %}
+<h5>Sign in to make a purchase.</h5>
+{% endif %}
+
+{% else %}
+<h2>Product is not being sold.</h2>
+{% endif %}
+
+{% if current_user.is_authenticated %}
+<p style="padding-left: 12px;"><a href="{{ url_for('review.neomakeproductreviewpreset',persid = current_user.id,neoid= product.id ) }}">Add a Review</a> for this Product</p>
+{% else %}
+<h5> Sign in to make a review!</h5>
+{% endif %}
+
+{% endif %}
+{% endblock %}

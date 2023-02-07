@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+{% if failure != 0 %}
+<p>You cant delete a review if it doesn't exist.</p>
+{% endif %}
+
+{% if avail_reviews_people|length != 0 %}
+<h2>Reviews from {{name}} Seller Reviews :</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">Reviewed User ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Date Published</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for review_people in avail_reviews_people%}
+      <tr>
+        <th scope="row">{{review_people.uid}}</th>
+        <td>{{review_people.uid2}}</td>
+        <td>{{user.get_name(review_people.uid2)[0][0] +" "+ user.get_name(review_people.uid2)[0][1]}}</td>
+        <td>{{review_people.review_time}}</td>
+        <td>{{review_people.review_content}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>
+  Insert the information of the review you would like to delete:
+</h3>
+
+<form action="#" method = "post">
+  <p>Name of being reviewed: </p>
+  <p></p><select name="idsell" class="selectpicker form-control">
+    {% for each in idarray %}
+      <option value="{{each}}">{{each}}</option>
+    {% endfor %}
+    </select></p>
+  <p><input type="submit" name = "search" /></p>
+</form>
+
+{% else %}
+<p> There are no Seller Reviews for ID {{name}} to Delete</p>
+
+{% endif %}
+
+
+
+    </body>
+    </html>
+
+
+{% endblock %}

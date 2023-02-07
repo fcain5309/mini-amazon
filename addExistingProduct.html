@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{new_product}}
+<div style="display: flex; justify-content: space-between;">
+    <h2 style="padding-bottom: 15px;">Add Existing Product to Inventory</h2>
+    <a href="{{ url_for('inventory.inventory', uid=current_user.id) }}">Go back to inventory page</a>
+</div>
+    {% if newly_added_pid != -1 %}
+    <p>You have added a product with product ID {{ newly_added_pid }} recently.</p>
+    {% endif %}
+
+<h5 style="padding-bottom: 15px;">Please Enter Product ID:</h5>
+<form action="#" method="post" novalidate>
+  <div style="text-align: left; padding-right: 25px; display: inline-block;">
+    <p>Product ID</p>
+    <p style="display: inline-block;">
+      <input type="number" id="pid" name="pid"> 
+    </p>
+  </div>
+  <div style="display: inline-block;">
+    <p>Quantity</p>
+    <p style="display: inline-block;">
+      <input type="number" id="quant" name="quant" min="0"> 
+    </p>
+  </div>
+    {% if failed == 1 %}
+    <p style="color: red;"> This product already exists in your inventory/does not exist.</p>
+    {% endif %}
+    {% if failed == 3 %}
+      <p style="color: red;"> Quantity is required.</p>
+    {% endif %}
+    {% if failed == 2 %}
+    <p> Product has been added to your inventory.</p>
+    {% endif %}
+    <p><input type="submit" name = "search" /></p>
+</form>
+
+{% endblock %}

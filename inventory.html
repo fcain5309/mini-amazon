@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 style="padding-top:15px;">Add a product to your inventory:</h3>
+<div style="display: flex;">
+  <p style="padding-right: 25px;">
+    <a id="add-existing-inventory-button" href="{{ url_for('inventory.add_existing_product') }}" type="button" class="btn btn-dark">Add Existing Product</a>
+  </p>
+  <p>
+    <a id="add-new-inventory-button" href="{{ url_for('inventory.add_new_product') }}" type="button" class="btn btn-dark">Add New Product</a>
+  </p>
+
+</div>
+{% if products %}
+<h2 style = "padding-top: 20px"> Products for Sale</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Category</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products%}
+      <tr>
+        <th scope="row">
+          <img src = "{{product.image}}" width="200" height="200" >
+        </th>
+        <td>
+          <a href="{{ url_for('products.product_details', product_id = product.id) }}">{{product.name}}</a>
+        </td>
+        <td>{{product.category}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.quantity}}</td>
+        <td><div><p><a href="{{url_for('inventory.editInventory', pid=product.id, uid=current_user.id)}}" type="button" class="btn btn-dark">Edit</a></p></div></td>
+        <td><form action="{{url_for('inventory.inventory', uid=current_user.id, purchase_id=product.id) }}" id="remove" method="post">
+                <input type="hidden" name="action" value="remove">
+                <input type="hidden" name="uid" value="{{current_user.id}}">
+                <input type="hidden" name="pid" value="{{product.id}}">
+                <button type="submit" class="btn btn-dark">Remove</button>
+        </form></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<h3 style = "padding-top: 20px"> You have no products for sale.</h3>
+{% endif %}
+
+{% if inactive_prods %}
+<h2 style = "padding-top: 20px"> Inactive Products</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Category</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Reactivate</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for inactive_p in inactive_prods%}
+      <tr>
+        <th scope="row">
+          <img src = "{{inactive_p.image}}" width="200" height="200" >
+        </th>
+        <td>
+          <a href="{{ url_for('products.product_details', product_id = inactive_p.id) }}">{{inactive_p.name}}</a>
+        </td>
+        <td>{{inactive_p.category}}</td>
+        <td>{{inactive_p.description}}</td>
+        <td>{{inactive_p.price}}</td>
+        <td>{{inactive_p.quantity}}</td>
+        <td><form action="{{url_for('inventory.inventory', uid=current_user.id, purchase_id=inactive_p.id) }}" id="reactivate" method="post">
+                <input type="hidden" name="action" value="reactivate">
+                <input type="hidden" name="uid" value="{{current_user.id}}">
+                <input type="hidden" name="pid" value="{{inactive_p.id}}">
+                <button type="submit" class="btn btn-dark">Reactivate</button>
+        </form></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

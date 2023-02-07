@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1> Purchase History </h1>
+
+<script>
+  function change_view() {
+    var box_value = document.getElementById("select_view_type").value;
+    if (box_value == "Order") {
+      document.getElementById("order_order").style.display = "inline-block"
+      document.getElementById("order_column").style.display = "inline-block"
+      document.getElementById("item_order").style.display = "none"
+      document.getElementById("item_column").style.display = "none"
+      document.getElementById("search_bar").style.display = "none"
+      document.getElementById("submit_item").style.display = "none"
+      document.getElementById("submit_order").style.display = "inline-block"
+    } else if (box_value == "Line Item"){
+      document.getElementById("item_order").style.display = "inline-block"
+      document.getElementById("item_column").style.display = "inline-block"
+      document.getElementById("search_bar").style.display = "inline-block"
+      document.getElementById("order_order").style.display = "none"
+      document.getElementById("order_column").style.display = "none"
+      document.getElementById("submit_order").style.display = "none"
+      document.getElementById("submit_item").style.display = "inline-block"
+    } else {
+      document.getElementById("item_order").style.display = "none"
+      document.getElementById("item_column").style.display = "none"
+      document.getElementById("search_bar").style.display = "none"
+      document.getElementById("order_order").style.display = "inline-block"
+      document.getElementById("order_column").style.display = "inline-block"
+      document.getElementById("submit_order").style.display = "inline-block"
+    }
+  }
+</script>
+
+<form action="" method="post" novalidate>
+  Select View Type: <span style="display:inline-block; padding-bottom: 5px">
+  <select id="select_view_type" onchange="change_view()">
+    <option value="Order">Order</option>
+    <option value="Line Item">Line Item</option>
+  </select></span></br>
+  <div style="min-height: 30px">
+  <div id = "order_column" style = "display: inline-block; padding-right: 10px; padding-bottom: 5px">
+    Sort by Column: 
+    {{ form.order_sort_by_column(size=1) }}
+  </div>
+  <div id = "order_order" style = "display: inline-block; padding-right: 10px; padding-bottom: 5px">
+    Sort Ascending or Descending: 
+    {{ form.order_sort_by_order(size=1) }}
+  </div>
+  <div id = "item_column" style = "display: none; padding-right: 10px; padding-bottom: 5px">
+    Sort by Column: 
+    {{ form.item_sort_by_column(size=1) }}
+  </div>
+  <div id = "item_order" style = "display: none; padding-right: 10px; padding-bottom: 5px">
+    Sort Ascending or Descending: 
+    {{ form.item_sort_by_order(size=1) }}</br>
+  </div>
+  <div id = "search_bar" style = "display: none; padding-right: 10px; padding-bottom: 5px">
+    Search: 
+    {{ form.search_bar(size=10) }}</br>
+  </div>
+  </div>
+  <div id ="submit_order" style = "display: inline-block; padding-bottom:5px">
+    {{ form.submit_order(size=10) }}
+  </div>
+  <div id ="submit_item" style = "display: none; padding-bottom:5px">
+    {{ form.submit_item(size=10) }}
+  </div>
+</form>
+
+{%if data != "Failed" and data_type == "Order"%}
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Order ID</th>
+      <th scope="col">Total Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Time Stamp</th>
+      <th scope="col">Number of (Unique) Items</th>
+      <th scope="col">Number of (Total) Items</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if data %}
+      {% for h in data%}
+        <tr>
+          <td><a href="{{ url_for('cart.detailed_order', oid=h.id) }}">{{h.id}}</a></td>
+          <td>{{h.total_price}}</td>
+          <td>{{h.status}}</td>
+          <td>{{h.time_stamp}}</td>
+          <td>{{h.unique_items}}</td>
+          <td>{{h.total_items}}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+    {% endif %}
+  </tbody>
+</table>
+{%endif%}
+
+{%if data != "Failed" and data_type == "Line Item"%}
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Price Per Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Seller Name</th>
+      <th scope="col">Order ID</th>
+      <th scope="col">Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if data %}
+      {% for h in data%}
+        <tr>
+          <td><a href="{{ url_for('products.product_details', product_id = h.product_id) }}">{{h.product_name}}</a></td>
+          <td>{{h.category}}</td>
+          <td>{{h.price}}</td>
+          <td>{{h.quantity}}</td>
+          <td>{{h.total_price}}</td>
+          <td>{{h.item_status}}</td>
+          <td><a href="{{ url_for('users.user_public_page', uid=h.seller_uid) }}">{{h.seller_firstname}} {{h.seller_lastname}}</a></td>
+          <td><a href="{{ url_for('cart.detailed_order', oid=h.order_id) }}">{{h.order_id}}</a></td>
+          <td>{{h.time_stamp}}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+    {% endif %}
+  </tbody>
+</table>
+{%endif%}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if (order_list[0] == "Insufficient Balance") %}
+<h2>You have insufficient balance to make this purchase! Please make a deposit and place the order again :)</h2>
+{% elif (order_list[0] == "Nothing in Cart") %}
+<h2>Order not submitted: you had nothing in your cart.</h2>
+{% elif (order_list[0] == "Out of Stock Item:") %}
+<h2>The item {{order_list[1]}} in your cart is out of stock. Please remove it from your cart and place the order again :)</h2>
+{% else %}
+<h1>Order Submitted!</h1>
+<h2>A confirmation email with the summary of your order has been sent:)</h2>
+<h3>Total Cost of Your Purchase: {{final_total}}</h3>
+<h3>Products Purchased:</h3>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in order_list%}
+      <tr>
+        <th scope="row">{{row.product}}</th>
+        <th scope="row">{{row.price}}</th>
+      </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endif %}
+{% endblock %}

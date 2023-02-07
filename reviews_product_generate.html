@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<html>
+    <head>
+        <title>
+            Let's make a product review!
+        </title>
+    </head>
+    <body>
+        <h2>
+            Let's make a product review!
+        </h2>
+        <h3>
+            Please enter the ID of the person who makes the review, the product name, and the rating.
+        </h3>
+        {% if failed == 1 %}
+            <p> You can't make a review for a product you haven't purchased!</p>
+        {% endif %}
+        <p></p>
+
+
+        <form action="#" method = "post">
+            <p>ID of user making review: </p>
+            <p><input type="text" name="iduser" /></p>
+            <p>ID of the product being reviewed: </p>
+            <p><input type="text" name="idsell" /></p>
+            <p>Rating: </p>
+            <p></p><select name="review" class="selectpicker form-control">
+                {% for each in revbev %}
+                  <option value="{{each}}">{{each}}</option>
+                {% endfor %}
+                </select></p>
+            <p><input type="submit" name = "search" /></p>
+        </form>
+
+        
+    </body>
+    </html>
+
+    {% endblock %}

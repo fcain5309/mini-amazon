@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<html>
+    <head>
+        <title>
+            Let's make a product review!
+        </title>
+    </head>
+    <body>
+    {% if reviewable == False %}
+    {% if failed == 2 %}
+    <h2>
+        You already have a review for this product!
+    </h2>
+    {% else %}
+    <h2>
+        You cannot make a review for a product you haven't purchased!
+    </h2>
+    {% endif %}
+
+    <p><a href="{{ url_for('products.product_details',product_id= neoid ) }}">Return</a> to the product page</p>
+    {% else %}
+    <h2>
+            Let's make a product review! 
+        </h2>
+        <h3>
+            Please enter the product name, and the rating.
+        </h3>
+        {% if failed == 1 %}
+            <p> You can't make a review for a product you haven't purchased!</p>
+        {% elif failed == 2 %}
+            <p> You have already made a review for this product!</p>
+        {% endif %}
+        <p></p>
+
+
+        <form action="#" method = "post">
+            <p>ID of the product being reviewed: </p>
+
+            <h3> {{neoid}} </h3>
+                
+            <p>Rating: </p>
+            <p></p><select name="review" class="selectpicker form-control">
+                {% for each in revbev %}
+                  <option value="{{each}}">{{each}}</option>
+                {% endfor %}
+                </select></p>
+            <p><input type="submit" name = "search" /></p>
+        </form>
+
+    {% endif %}    
+    </body>
+    </html>
+
+
+    {% endblock %}

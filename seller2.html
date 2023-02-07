@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Seller's Page</h2>
+    <h3>Check your customer orders:</h3>
+  <a id="see-purchases-button" href="{{ url_for('purchase.purchase_details', uid = current_user.id)}}" type="button" class="btn btn-dark">Check Orders</a>
+    <br><br>
+    <h3>Check your inventory:</h3>
+    <a id="seller-page-inventory-button" href="{{ url_for('inventory.inventory', uid=current_user.id) }}" type="button" class="btn btn-dark">Inventory</a>
+<br><br>
+    <h3>Check your analytics about inventory:</h3>
+    <a id="seller-page-analytics-button" href="{{ url_for('inventory_analyze.inventoryAnalyze', uid=current_user.id) }}" type="button" class="btn btn-dark">Inventory Analytics</a>
+<br><br>
+
+{% endblock %}

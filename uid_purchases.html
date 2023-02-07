@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Find User Purchases </h1>
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.uid_input.label }}<br/>
+    {{ form.uid_input(size=10) }}<br/>
+    {% for error in form.uid_input.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  {{ form.submit(class_="btn btn-black") }}
+
+{% if purchases == None%}
+<p>No purchases to display.</p>
+{% else %}
+<h2>User {{uid}} Purchases:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Order ID</th>
+      <th scope="col">Time</th>
+      <th scope="col">Seller ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for purchase in purchases%}
+      <tr>
+        <th scope="row">{{purchase.order_id}}</th>
+        <td>{{purchase.time_stamp}}</td>
+        <td>{{purchase.seller_uid}}</td>
+        <td>{{purchase.name}}</td>
+        <td>{{purchase.quantity}}</td>
+        <td>{{purchase.price}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</form>
+{% endif %}
+{% endblock %}

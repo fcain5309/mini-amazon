@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>You are not a seller</h2>
+    <h2>Do you want to become a seller:</h2>
+  <a id="become_seller-button" href="{{ url_for('inventory.becomeSeller',uid = current_user.id )}}" type="button" class="btn btn-dark">Become seller</a>
+
+{% endblock %}

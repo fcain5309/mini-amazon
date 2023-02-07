@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> User {{user_data[0][0]}}: </h1>
+Name: {{user_data[0][1]}} {{user_data[0][2]}}<br/>
+<!-- Type: {{user_data[0]}}<br/> -->
+Registered Seller: {% if user_data[0][6] == 1 %} Yes {%else%} No {%endif%}</br></br>
+{% if user_data[0][6] == 1 %}
+<!-- Inventory: {{inventory}} <br/> -->
+Email: {{user_data[0][4]}} <br/>
+Address: {{user_data[0][3]}} <br/></br>
+{%endif%}
+View <a href="{{ url_for('review.reviewresults',persid = user_data[0][0]) }}">reviews</a> made by this user.</br>
+{% if user_data[0][6] == 1 %}
+View <a href="{{ url_for('review.sellerreviews',persid = user_data[0][0]) }}">reviews</a> made about this seller.</br>
+{% if persid == "-1" %}
+<p> Sign in to make a review!</p></br>
+{% else %}
+<a href="{{ url_for('review.neomakesellerreviewpreset',persid = persid,neoid= user_data[0][0] ) }}">Add a review </a> for this seller.
+{% endif %}
+{% endif %}
+{% endblock %}

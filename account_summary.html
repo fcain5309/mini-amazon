@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Account Summary</h1></br>
+<p>User ID: {{uid}}</p>
+<p>Email: {{email}}</p>
+<p>Name: {{firstname}} {{lastname}}</p>
+<p>Address: {{address}}</p></br>
+<p>Account Balance: {%if amount < 0 %}-${{amount * (-1)}} {%else%}${{amount}}{%endif%}</p>
+<p>Registered Seller: {% if is_seller == 1 %} Yes {%else%} No {%endif%} </p>
+
+{% endblock %}

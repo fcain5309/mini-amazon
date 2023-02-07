@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+{% if purchase %}
+    <h2>Your Customers' Purchases:</h2>
+    <br><br>
+    <table class='table table-hover table-bordered container' , id="seller-order-table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Purchase id</th>
+            <th scope="col">Buyer Name</th>
+            <th scope="col">Buyer address</th>
+            <th scope="col">Date Order Placed</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Overall Fulfillment Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchase %}
+            <tr>
+                <td>{{ purchase.id }}</td>
+                <td>{{ user.firstname }} {{ user.lastname }}</td>
+                <td>{{ user.address }}</td>
+                <th scope="row">{{ purchase.time_purchased }}</th>
+                <td>{{ purchase.quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+<h3 style = "padding-top: 20px"> You have no orders</h3>
+{% endif %}
+{% endblock %}

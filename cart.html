@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated == True %}
+<h1>User Cart</h1>
+{% if (cart_prod_list == []) or (cart_prod_list == None) %}
+<h2>Your cart is empty.</h2>
+{% else %}
+<h2>Cart items for {{current_user.firstname}}:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Buyer ID</th>
+      <th scope="col">Seller</th>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Unit Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Remove?</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in cart_prod_list%}
+      <tr>
+        <th scope="row">{{row.buy_uid}}</th>
+        <td>{{row.firstname + " " + row.lastname}}</td>
+        <td>{{row.pid}}</td>
+        <td>{{row.name}}</td>
+        <td>{{row.unit_price}}</td>
+        <td>{{row.quant}}</td>
+        <td>{{row.total_price}}</td>
+        <td>
+          <div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+          <a href="{{ url_for('cart.make_in_cart',pid= row.pid, sell_uid = row.sell_uid) }}" type="button" class="btn btn-light">{{row.prod_status}}</a>
+        </div> </td>
+        <td><div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+          <a href="{{ url_for('cart.del_item', pid= row.pid, sell_uid = row.sell_uid) }}" type="button" class="btn btn-light">remove</a>
+        </div></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+Total Cost: {{final_total}}
+<div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+  <a href="{{ url_for('cart.update_quant') }}" type="button" class="btn btn-light">Change Quantity</a>
+</div>
+<div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+  <a href="{{ url_for('cart.submit_order', buy_uid=buy_uid) }}" type="button" class="btn btn-light">Submit Order</a>
+</div>
+{% endif %}
+{% else %}
+<p> Please <a href="{{ url_for('users.login') }}">log in</a> or <a href="{{ url_for('users.register') }}">register</a> to see your cart!</p>
+{% endif %}
+{% endblock %}

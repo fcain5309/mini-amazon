@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Update Quantity Here</h1>
+{% if (cart_prod_list == []) or (cart_prod_list == None) %}
+<h2>Your cart is empty.</h2>
+{% else %}
+<h3>
+  Please select the item you wish to change your quantity of.
+</h3>
+{% if has_submitted == False %}
+<form action="#" method = "post">
+  <p></p><select name="product" class="selectpicker form-control">
+      {% for each in product_list %}
+        <option value="{{each}}">{{each}}</option>
+      {% endfor %}
+      </select></p>
+  <p><input type="submit" name = "search" /></p>
+</form>
+{% else %}
+<p> {{ pid }}</p>
+{% endif %}
+
+
+{% if has_submitted == True %}
+<h3>
+  Please enter the new quantity.
+</h3>
+<div<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.id_list.label }}<br/>
+    {{ form.id_list(size=10) }}<br/>
+    {% for error in form.id_list.errors %}
+    <span style="color: rgb(0, 255, 213);">[{{ error }}]</span>
+    {% endfor %}
+  </p>  
+  {{ form.submit(class_="btn btn-black") }}</form><div>
+{% endif %}
+{% endif %}
+{% endblock %}

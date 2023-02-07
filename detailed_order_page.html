@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if current_uid != None %}
+
+<h1>Detailed Order Page: Order {{order_contents[0].order_id}}</h1>
+<h3>Buyer: <a href="{{ url_for('users.user_public_page', uid=order_buyer) }}">{{buyer_name[0][0]}} {{buyer_name[0][1]}}</a></h3>
+
+<p>{%if current_uid != order_buyer%} Note: You are not the buyer. You can only see the items you sold in this order.{%endif%}</p>
+
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Seller</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Purchased Unit Price</th>
+      <th scope="col">Total Price</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in order_contents%}
+    {% if current_uid == row.seller_id or current_uid == order_buyer%}
+      <tr>
+        <td><a href="{{ url_for('products.product_details', product_id = row.product_id) }}">{{row.name}}</a></td>
+        <td><a href="{{ url_for('users.user_public_page', uid=row.seller_id) }}">{{row.seller_firstname}} {{row.seller_lastname}}</a></td>
+        <td>{{row.quantity}}</td>
+        <td>{{row.purchased_price}}</td>
+        <td>{{row.total_price}}</td>
+        <td>{%if row.status == 'in_progress'%} in progress{%else%}{{row.status}}{%endif%}</td>
+      </tr>
+    {%endif%}
+    {% endfor %}
+  </tbody>
+</table>
+{%else%}
+Log in to view order information.
+{%endif%}
+{% endblock %}

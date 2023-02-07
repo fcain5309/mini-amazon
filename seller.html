@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Your Store Options:</h2>
+    <h3>Check your customer orders:</h3>
+    <a id="see-purchases-button" href="{{ url_for('inventory.purchase_history', uid = current_user.id)}}" type="button" class="btn btn-dark">Check Orders</a>
+<br><br>
+    <h3>Check your inventory:</h3>
+    <a id="seller-page-inventory-button" href="{{ url_for('inventory.inventory', uid=current_user.id) }}" type="button" class="btn btn-dark">Inventory</a>
+<br><br>
+    <h3>Check your reviews:</h3>
+    <a id="seller-page-inventory-button" href="{{ url_for('review.sellerreviews', persid=current_user.id) }}" type="button" class="btn btn-dark">View Reviews</a>
+<br><br>
+    <h3>Check your inventory analytics:</h3>
+    <a id="seller-page-analytics-button" href="{{ url_for('inventory.inventoryAnalyze', uid=current_user.id) }}" type="button" class="btn btn-dark">Inventory Analytics</a>
+<br><br>
+
+{% endblock %}

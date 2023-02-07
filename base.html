@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Mini Amazon</title>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/example.css') }}">
+  <style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .main-head {
+        height: 150px;
+        background: #FFF;
+    }
+
+    .sidenav {
+        height: 100%;
+        background-color: #000;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding-top: 20px;
+    }
+
+    .main {
+        padding: 0px 10px;
+    }
+
+    .login-main-text {
+        margin-top: 20%;
+        padding: 60px;
+        color: #fff;
+    }
+
+    .login-main-text h2 {
+        font-weight: 300;
+    }
+
+    .btn-black {
+        background-color: #000 !important;
+        color: #fff;
+    }
+
+      /* Dropdown button for account information */
+    .dropbtn {
+      background-color: white;
+      color: black;
+      padding: 2px;
+      font-size: 16px;
+      border: none;
+    }
+
+    /* The container used to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Hidden dropdown content */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0px;
+      background-color: white;
+      min-width: 175px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 100;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 8px 12px;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Change color of dropdown and show dropdown menu links on hover */
+    .dropdown-content a:hover {background-color: #ddd;}
+    .dropdown:hover .dropdown-content {display: block;}
+    .dropdown:hover .dropbtn {background-color: #ddd;}
+    
+  </style>
+</head>
+
+<body>
+  <div class="sidenav">
+    {% block msg %}
+      <h1 style = "padding-left: 20px"><a style="color: aliceblue; text-decoration:none" href="/">Welcome to J(akobe)-Mart!!</a></h1>
+      <div style="color: aliceblue; text-align: right; margin-bottom: 50px; margin-right:15px">
+        {% if current_user.is_authenticated %}
+          <span style= "padding-right: 10px"> Hello {{current_user.firstname}}! </span>
+          <div class="dropdown">
+            <button class="dropbtn">Account</button>
+            <div class="dropdown-content">
+              <a href="{{ url_for('users.account_summary') }}">Account Summary</a>
+              <a href="{{ url_for('users.update_account') }}">Update Account Information</a>
+              <a href="{{ url_for('users.depo_with') }}">Deposit or Withdraw Funds</a>
+              <a href="{{ url_for('users.account_history') }}">Account History</a>
+              <a href="{{ url_for('users.purchase_history') }}">Purchase History</a>
+              <a href="{{ url_for('users.logout') }}">Log Out</a>
+            </div>
+          </div>
+        {% else %}
+          <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light">Log in</a>
+        {% endif %}
+      </div>
+      <div style="text-align: center;">
+        <div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+          <a href="{{ url_for('products.products') }}" type="button" class="btn btn-light">All Products</a>
+        </div>
+        <div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+          <a href="{{ url_for('cart.get_prod_per_user') }}" type="button" class="btn btn-light">Cart</a>
+        </div>
+        <div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+          <a href="{{ url_for('users.search_user') }}" type="button" class="btn btn-light"> User Lookup </a>
+        </div>
+        {% if current_user.is_authenticated %}
+        <div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+          <a href="{{ url_for('review.querypage') }}" type="button" class="btn btn-light"> Your Reviews </a>
+        </div>
+          <div style="color: aliceblue; display: inline-block; margin-bottom: 25px; margin-left:15px"> 
+            <a href="{{ url_for('inventory.seller',uid = current_user.id) }}" type="button" class="btn btn-light"> Your Store </a>
+          </div> 
+        {% endif %}
+      </div>
+      
+    {% endblock %}
+  </div>
+  <div class="main">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>

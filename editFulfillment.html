@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <h2>Edit Order Fulfillment</h2>
+</div>
+
+<form action= "" method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.status.label }}<br/>
+    {{ form.status() }}<br/>
+    {% for error in form.status.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ form.submit() }}</p>
+
+</form>
+
+{% endblock %}

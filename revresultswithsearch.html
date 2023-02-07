@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+{% if avail_reviews|length != 0 %}
+<h2>{%if confirm == True %} Your Product Reviews: {%else%} Product Reviews from ID {{name}}: {%endif%}</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Date Published</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% set i = 0 %}
+    {% for review in avail_reviews%}
+      <tr>
+        <td>{{review.pid}}</td>
+        <td>{{diction[review.pid]}}</td>
+        <td>{{review.review_time}}</td>
+        <td>{{review.review_content}}</td>
+      </tr>
+    {% set i = i + 1 %}
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p> There are no Product Reviews from ID {{name}} :(</p>
+{% endif %}
+{% if avail_reviews_people|length != 0 %}
+<h2>{%if confirm == True %} Your Seller Reviews: {%else%} Seller Reviews from ID {{name}}: {%endif%}</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Reviewed User ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Date Published</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for review_people in avail_reviews_people%}
+      <tr>
+        <td>{{review_people.uid2}}</td>
+        <td>{{user.get_name(review_people.uid2)[0][0] +" "+ user.get_name(review_people.uid2)[0][1]}}</td>
+        <td>{{review_people.review_time}}</td>
+        <td>{{review_people.review_content}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p> There are no Seller Reviews from ID {{name}} :(</p>
+
+{% endif %}
+<p><a href="{{ url_for('review.querypagepostlogin') }}">Search</a> the reviews made by other reviewers</p>
+{% if confirm == True %}
+
+
+{% if bought == 1 %}
+<h2>Edit Information!</h2>
+<p><a href="{{ url_for('review.neomakeproductreview',persid = name) }}">Make Review</a> for Product</p>
+{% else %}
+<p> You need to buy a product before you can make a review</p>
+{% endif %}
+<p><a href="{{ url_for('review.editproductreview',persid = name ) }}">Edit Review</a> for Product</p>
+
+<p><a href="{{ url_for('review.deleteproductreview',persid = name ) }}">Delete Review</a> for Product</p>
+{% if bought == 1 %}
+<p><a href="{{ url_for('review.neomakesellerreview',persid = name) }}">Make Review</a> for Seller</p>
+{% else %}
+<p> You need to buy from a Seller before you can make a review</p>
+{% endif %}
+<p><a href="{{ url_for('review.editsellerreview',persid = name ) }}">Edit Review</a> for Seller</p>
+
+<p><a href="{{ url_for('review.deletesellerreview',persid = name ) }}">Delete Review</a> for Seller</p>
+
+
+{% endif %}
+    </body>
+    </html>
+
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Deposit/Withdraw Funds </h1>
+Current Balance: {%if current_user.amount < 0 %}-${{current_user.amount * (-1)}} {%else%}${{current_user.amount}}{%endif%}
+<form style = "padding-top: 20px" action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.depo_or_with }}<br/>
+    </p>
+    <p>
+        {{ form.depo_with_amount.label }}:
+        {{ form.depo_with_amount(size=10) }}
+        {% for error in form.depo_with_amount.errors %}
+        <span style="color: red;" > [{{ error }}] </span> 
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.submit(class_="btn btn-black") }}
+    </p>
+</form>
+
+{% if not submitted %}
+{% else %}
+<h2> Successfully submitted! </h2>
+Type: {{form.depo_or_with.data}}<br/>
+{{form.depo_or_with.data}} amount: ${{amount}}<br/>
+Time: {{time_stamp}}
+{% endif %}
+{% endblock %}

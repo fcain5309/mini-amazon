@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1> Account History </h1>
+<h3> Current Balance: {%if amount < 0 %}-${{amount * (-1)}} {%else%}${{amount}}{%endif%}</h3>
+<div style="color: aliceblue; display: inline-block; border: 1px solid black"> 
+  <a href="{{ url_for('users.depo_with')}}" type="button" class="btn btn-light">Deposit or Withdraw Funds</a>
+</div>
+
+<h2 style = "padding-top: 20px"> Transactions</h2>
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <div style = "display: inline-block; padding-right: 10px">
+    {{ form.depo_with.label }}
+    {{ form.depo_with(size=10) }}
+  </div>
+  <div style = "display: inline-block; padding-right: 10px">
+    {{ form.orders.label }}
+    {{ form.orders(size=10) }}
+  </div>
+  <div style = "display: inline-block; padding-right: 10px">
+    {{ form.sold.label }}
+    {{ form.sold(size=10) }}
+  </div>
+  <div style = "display: inline-block">
+    {{ form.submit(size=10) }}<br/>
+  </div>
+</form>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Amount</th>
+      <th scope="col">Transaction Type</th>
+      <th scope="col">Time Stamp</th>
+      <th scope="col">Order ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if history %}
+      {% for h in history%}
+        <tr>
+          <td>{{h.amount}}</td>
+          <td>{{h.transact_type}}</td>
+          <td>{{h.time_stamp}}</td>
+          {% if h.order_id %}
+          <td><a href="{{ url_for('cart.detailed_order', oid=h.order_id) }}">{{h.order_id}}</a></td>
+          {% else %}
+          <td> N/A </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% else %}
+    {% endif %}
+  </tbody>
+</table>
+{% endblock %}

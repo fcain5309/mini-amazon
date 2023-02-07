@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Update Quantity Here</h1>
+{% if (cart_prod_list == []) or (cart_prod_list == None) %}
+<h2>Your cart is empty.</h2>
+{% else %}
+<h3>
+  Please select the item you wish to change your quantity of.
+</h3>
+{% if has_submitted == False %}
+ <p> You shouldn't see this</p>
+{% else %}
+<p> {{ pid }}</p>
+{% endif %}
+
+
+{% if has_submitted == True %}
+<h3>
+  Please enter the new quantity.
+</h3>
+
+<form action="#" method = "post">
+  <p>New Quantity: </p>
+  <p><input type="text" name="quantity" /></p>
+  <p><input type="submit" name = "search" /></p>
+</form>
+{% endif %}
+{% endif %}
+{% endblock %}

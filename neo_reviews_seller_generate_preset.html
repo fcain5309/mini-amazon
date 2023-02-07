@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<html>
+    <head>
+        <title>
+            Let's make a seller review!
+        </title>
+    </head>
+    <body>
+    {% if reviewable == False %}
+    {% if failed == 2 %}
+    <h2>
+        You already have a review for this seller!
+    </h2>
+    {% else %}
+    <h2>
+        You cannot make a review for a seller you haven't purchased from!
+    </h2>
+    {% endif %}
+    
+    <p><a href="{{ url_for('users.user_public_page',uid= neoid ) }}">Return</a> to the seller page</p>
+    {% else %}
+    <h2>
+            Let's make a seller review!
+        </h2>
+        <h3>
+            Please enter the the seller's name, and the rating.
+        </h3>
+        {% if failed == 1 %}
+            <p> You can't make a review for a seller you haven't purchased from!</p>
+        {% endif %}
+        <p></p>
+
+
+        <form action="#" method = "post">
+            <p>Name of seller being reviewed: </p>
+
+            <h3> {{neoid}} </h3>
+                
+            <p>Rating: </p>
+            <p></p><select name="review" class="selectpicker form-control">
+                {% for each in revbev %}
+                  <option value="{{each}}">{{each}}</option>
+                {% endfor %}
+                </select></p>
+            <p><input type="submit" name = "search" /></p>
+        </form>
+
+    {% endif %}    
+    </body>
+    </html>
+
+
+    {% endblock %}

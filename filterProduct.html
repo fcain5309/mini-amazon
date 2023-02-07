@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="text-align: center;">Products</h1>
+<form action="" method="post" novalidate>
+  <div style="text-align: center;">
+    {{ form.hidden_tag() }}
+    <p style="display: inline-block;">
+      {{ form.max_price.label }}<br/>
+      {{ form.max_price(size=10) }}<br/>
+      {% for error in form.max_price.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p style="display: inline-block; margin-left:25px">
+      {{ form.category.label }}<br/>
+      {{ form.category(size=10) }}<br/>
+    </p>
+    <p style="display: inline-block; margin-left:25px">
+      {{ form.keyword.label }}<br/>
+      {{ form.keyword(size=10) }}<br/>
+    </p>
+    {{ form.submit(class_="btn btn-black") }}
+</div>
+
+{% if all_prods == None %}
+<h2>No products to display.</h2>
+{% else %}
+<h2 style="display: inline-block;">All products:</h2>
+<div style="text-align: right;">
+  {{ pagination.links }}
+</div>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th>#</th>
+      <th scope="col">Product Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Category</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Product Review</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in all_prods%}
+      <tr>
+        <td>{{ loop.index + (page - 1) * per_page }}</td>
+        <th scope="row">
+          <img src = "{{product.image}}" width="200" height="200" >
+        </th>
+        <td>
+          <a href="{{ url_for('products.product_details', product_id = product.id) }}">{{product.name}}</a>
+        </td>
+        <td>{{product.category}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.review}}</td>
+        <td>{{product.price}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</form>
+{% endif %}
+
+{{ pagination.info }}
+{{ pagination.links }}
+
+{% endblock %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Mavrick Hunters
+        </title>
+    </head>
+    <body>
+        <h1>
+            Mav hunters:
+        </h1>
+
+        {% for elem in listo %}
+            {% if elem != 'bass' %}
+            <p>{{elem}}</p>
+            {% endif %}
+
+            {% if elem == 'zero' %}
+
+            <p>He's the leader of the Maverick Hunters</p>
+
+            {% elif elem == 'megaman x' %}
+
+            <p>Zero's best friend</p>
+
+            {% else %}
+
+            <p> I've never seen this guy</p>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </body>
+</html>

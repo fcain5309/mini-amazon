@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+{% if failure != 0 %}
+<p>You cant delete a review if it doesn't exist.</p>
+{% endif %}
+
+{% if avail_reviews|length != 0 %}
+<h2>Reviews from {{name}} Product Reviews :</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Date Published</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for review in avail_reviews%}
+      <tr>
+        <th scope="row">{{review.uid}}</th>
+        <td>{{review.pid}}</td>
+        <td>{{diction[review.pid]}}</td>
+        <td>{{review.review_time}}</td>
+        <td>{{review.review_content}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>
+  Insert the information of the review you want to delete:
+</h3>
+
+<form action="#" method = "post">
+  <p>Name of the product being reviewed: </p>
+  <p></p><select name="idsell" class="selectpicker form-control">
+    {% for each in idarray %}
+      <option value="{{each}}">{{each}}</option>
+    {% endfor %}
+    </select></p>
+  <p><input type="submit" name = "search" /></p>
+</form>
+
+{% else %}
+<p> There are no Product Reviews for ID {{name}} to Delete</p>
+
+{% endif %}
+
+
+
+    </body>
+    </html>
+
+
+{% endblock %}

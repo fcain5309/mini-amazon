@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<html>
+    <head>
+    </head>
+    <body>
+        <h3>
+            Please enter the ID of the seller whose inventory you wish to see!
+        </h3>
+        <form action="#" method = "post">
+            <p>ID: </p>
+            <p><input type="text" name="nm" /></p>
+            <p><input type="submit" name = "search" /></p>
+        </form>
+
+        <p><a href="{{ url_for('inventory.add_existing_product') }}">Edit Inventory</a> for a seller</p>
+        
+    </body>
+    </html>
+
+    {% endblock %}
